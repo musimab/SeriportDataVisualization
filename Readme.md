@@ -4,8 +4,7 @@
 ![Screenshot from 2023-03-12 13-05-43](https://user-images.githubusercontent.com/47300390/224537964-0fb793f7-1987-4c0b-aa2b-99dcf7e64bc0.png)
 
 
-https://user-images.githubusercontent.com/47300390/226124356-fafaf561-f42b-4063-834d-f33395e4f502.mp4
-
+https://github.com/musimab/SeriportDataVisualization/assets/47300390/6cba44b4-1c76-4c9e-ba0e-6baf20a152c7
 
 
 # QT ile Seri Port okuması
