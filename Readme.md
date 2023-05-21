@@ -1,4 +1,9 @@
-## Serial Comminication with UART 
+# Qt/PyQt Data Visualization Interface
+
+
+An user interface has been created for sending and receiving data from the serial port. Thanks to this interface, visualization of the read data is provided in real time.
+
+## PyQT SeriPort Data Visualization
 
 
 ![Screenshot from 2023-03-12 13-05-43](https://user-images.githubusercontent.com/47300390/224537964-0fb793f7-1987-4c0b-aa2b-99dcf7e64bc0.png)
@@ -9,12 +14,15 @@ https://github.com/musimab/SeriportDataVisualization/assets/47300390/a879152a-7a
 
 
 
-
-# QT SeriPort data visualization
+## QT SeriPort Data Visualization
 
 https://github.com/musimab/SeriportDataVisualization/assets/47300390/02de951b-0c6b-44fd-85f1-c0e3134f0593
 
 ![qtwindow](https://github.com/musimab/SeriportDataVisualization/assets/47300390/00e71383-8b11-4e24-95fc-1d3ce1c842af)
+
+Using a multi-threaded structure, data exchange was developed on a worker. This makes the ui more resistant to freezes
+
+
 
 1. Blocking Synchronous Way
 
