@@ -10,7 +10,7 @@ https://github.com/musimab/SeriportDataVisualization/assets/47300390/a879152a-7a
 
 
 
-# QT ile Seri Port okuması
+# QT SeriPort data visualization
 
 https://github.com/musimab/SeriportDataVisualization/assets/47300390/02de951b-0c6b-44fd-85f1-c0e3134f0593
 

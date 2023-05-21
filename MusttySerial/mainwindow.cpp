@@ -18,6 +18,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
     stop_worker_threads();
+    //delete m_plot_visualization_dock_widget;
+    //delete m_plot_visualization_widget;
 }
 
 void MainWindow::list_available_serial_ports()
@@ -74,7 +76,7 @@ void MainWindow::start_serial_read_process()
     QString baudrate = ui->comboBoxBaudRates->currentText();
     uint8_t  timeout =1;
 
-    SerialReadWorkerThread = new QThread(this);
+    SerialReadWorkerThread = new QThread();
     m_worker_reader = new SerialReadWorker(nullptr,port_name,baudrate, timeout);
 
     /* move the worker to thread*/
@@ -104,6 +106,7 @@ void MainWindow::start_serial_read_process()
 
     //Quit the thread
     connect(m_worker_reader, &SerialReadWorker::finished, SerialReadWorkerThread, &QThread::quit);//stop worker thread when the finished signal received
+    connect(m_worker_reader, &SerialReadWorker::destroyed, SerialReadWorkerThread, &QThread::quit);
     //connect(m_worker_reader, &SerialReadWorker::finished, SerialReadWorkerThread, &QThread::exit);//stop worker thread when the finished signal received
 
     // delete worker after finish the work
@@ -135,7 +138,7 @@ void MainWindow::add_mpl_visualition_dock_widget()
 {
     QDockWidget* m_plot_visualization_dock_widget = new QDockWidget(tr("Visualization"),this);
 
-    m_plot_visualization_widget = new MplotVisualization(nullptr);
+    m_plot_visualization_widget = new MplotVisualization(m_plot_visualization_dock_widget);
 
     m_plot_visualization_dock_widget->setWidget(m_plot_visualization_widget);
     m_plot_visualization_dock_widget->setAllowedAreas(Qt::RightDockWidgetArea);

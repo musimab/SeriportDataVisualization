@@ -23,7 +23,7 @@ public slots:
 
 private:
     QCustomPlot *m_plot = nullptr;
-    QVBoxLayout* m_layout = nullptr;
+    //QVBoxLayout* m_layout = nullptr;
     bool m_set_layout_flag = false;
     QVector<double> m_received_data;
 public:

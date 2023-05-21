@@ -85,7 +85,7 @@ void MplotVisualization::init_x_timing_vector()
 void MplotVisualization::init_plot_configurations()
 {
     m_plot=  new QCustomPlot();
-    m_layout = new QVBoxLayout(this);
+    QVBoxLayout* m_layout = new QVBoxLayout();
     m_layout->addWidget(m_plot);
     //m_layout->setSizeConstraint(QLayout::SetMaximumSize);
 
@@ -109,4 +109,5 @@ void MplotVisualization::init_plot_configurations()
     m_plot->xAxis->setLabel("x_test");
     m_plot->yAxis->setLabel("y_test");
     this->setMinimumSize(QSize(640, 480));
+    setLayout(m_layout);
 }

@@ -13,13 +13,18 @@ SerialReadWorker::~SerialReadWorker()
     if(m_serialPort->isOpen()) {
         m_serialPort->close();
     }
+
+
+    delete m_serialPort;
+    delete m_timer;
+
     qDebug() << "~SerialReadWorker";
 
 }
 
 void SerialReadWorker::get_serial_connection_configurations()
 {
-    m_serialPort = new QSerialPort(this);
+    m_serialPort = new QSerialPort();
     m_serialPort->setPortName(m_port_name);
     m_serialPort->setBaudRate(m_baud_rate.toUInt());
     m_serialPort->setDataBits(QSerialPort::Data8);
@@ -86,7 +91,7 @@ void SerialReadWorker::start_work()
 void SerialReadWorker::stop_work()
 {
 
-    m_timer->stop();
+    //m_timer->stop();
     if(m_serialPort->isOpen()) {
         m_serialPort->close();
     }
