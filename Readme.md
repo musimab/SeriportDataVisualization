@@ -3,6 +3,8 @@
 
 An user interface has been created for sending and receiving data from the serial port. Thanks to this interface, visualization of the read data is provided in real time.
 
+Using a multi-threaded structure, data exchange was developed on a worker. This makes the ui more resistant to freezes
+
 ## PyQT SeriPort Data Visualization
 
 
@@ -20,7 +22,7 @@ https://github.com/musimab/SeriportDataVisualization/assets/47300390/02de951b-0c
 
 ![qtwindow](https://github.com/musimab/SeriportDataVisualization/assets/47300390/00e71383-8b11-4e24-95fc-1d3ce1c842af)
 
-Using a multi-threaded structure, data exchange was developed on a worker. This makes the ui more resistant to freezes
+
 
 
 
