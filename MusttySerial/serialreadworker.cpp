@@ -5,7 +5,8 @@ SerialReadWorker::SerialReadWorker(QObject *parent, QString port_name, QString b
    QObject(parent), m_port_name(port_name), m_baud_rate(baudrate),m_current_wait_timeout(timeout)
 
 {
-
+    m_timer = new QTimer(this);
+    connect(m_timer, &QTimer::timeout, this, &SerialReadWorker::start_work);
 }
 
 SerialReadWorker::~SerialReadWorker()
@@ -15,16 +16,13 @@ SerialReadWorker::~SerialReadWorker()
     }
 
 
-    delete m_serialPort;
-    delete m_timer;
-
     qDebug() << "~SerialReadWorker";
 
 }
 
 void SerialReadWorker::get_serial_connection_configurations()
 {
-    m_serialPort = new QSerialPort();
+    m_serialPort = new QSerialPort(this);
     m_serialPort->setPortName(m_port_name);
     m_serialPort->setBaudRate(m_baud_rate.toUInt());
     m_serialPort->setDataBits(QSerialPort::Data8);
@@ -91,17 +89,18 @@ void SerialReadWorker::start_work()
 void SerialReadWorker::stop_work()
 {
 
-    //m_timer->stop();
+    m_timer->stop();
     if(m_serialPort->isOpen()) {
         m_serialPort->close();
     }
+
     emit finished();
 }
 
 void SerialReadWorker::run()
 {
 
-    m_timer = new QTimer();
+
     get_serial_connection_configurations();
 
     // Open the Port
@@ -110,7 +109,7 @@ void SerialReadWorker::run()
     }
 
     //connect(m_serialPort, &QSerialPort::readyRead, this, &SerialReadWorker::start_work);
-    connect(m_timer, &QTimer::timeout, this, &SerialReadWorker::start_work);
+
 
 
     m_timer->start(1);

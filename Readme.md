@@ -14,6 +14,8 @@ https://github.com/musimab/SeriportDataVisualization/assets/47300390/a879152a-7a
 
 https://github.com/musimab/SeriportDataVisualization/assets/47300390/02de951b-0c6b-44fd-85f1-c0e3134f0593
 
+![qtwindow](https://github.com/musimab/SeriportDataVisualization/assets/47300390/00e71383-8b11-4e24-95fc-1d3ce1c842af)
+
 1. Blocking Synchronous Way
 
 Use waitForReadyRead() to block the thread until new data arrives to the serial port. This makes the calling thread unable to do anything until new data arrives on this serial port. If this thread was a GUI thread, This will make the application unresponsive during that period of time. Use this approach only when you are sure this is what you want. Your code can be rewritten like this:

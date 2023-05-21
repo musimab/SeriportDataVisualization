@@ -18,8 +18,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
     stop_worker_threads();
-    //delete m_plot_visualization_dock_widget;
-    //delete m_plot_visualization_widget;
+
 }
 
 void MainWindow::list_available_serial_ports()
@@ -76,7 +75,7 @@ void MainWindow::start_serial_read_process()
     QString baudrate = ui->comboBoxBaudRates->currentText();
     uint8_t  timeout =1;
 
-    SerialReadWorkerThread = new QThread();
+
     m_worker_reader = new SerialReadWorker(nullptr,port_name,baudrate, timeout);
 
     /* move the worker to thread*/
@@ -88,13 +87,12 @@ void MainWindow::start_serial_read_process()
     connect(m_worker_reader, &SerialReadWorker::send_requested_data, this, &MainWindow::port_receive_data);
 
     // Write data to serial port
-    connect(this, &MainWindow::write_data_signal, m_worker_reader, &SerialReadWorker::write_data);
     connect(m_worker_reader, &SerialReadWorker::write_operation_finished, this, &MainWindow::write_signal_received);
 
     // Connection Info Transfer
     connect(m_worker_reader, &SerialReadWorker::device_connected, this, &MainWindow::port_connect);
     // mplot widget
-
+    connect(this, &MainWindow::write_data_signal, m_worker_reader, &SerialReadWorker::write_data);
     // Draw received bytarray in Mplot visualition widget
     connect(m_worker_reader, &SerialReadWorker::send_requested_data, m_plot_visualization_widget, &MplotVisualization::decode_requested_data);
 
@@ -107,13 +105,12 @@ void MainWindow::start_serial_read_process()
     //Quit the thread
     connect(m_worker_reader, &SerialReadWorker::finished, SerialReadWorkerThread, &QThread::quit);//stop worker thread when the finished signal received
     connect(m_worker_reader, &SerialReadWorker::destroyed, SerialReadWorkerThread, &QThread::quit);
-    //connect(m_worker_reader, &SerialReadWorker::finished, SerialReadWorkerThread, &QThread::exit);//stop worker thread when the finished signal received
 
     // delete worker after finish the work
     connect(m_worker_reader, &SerialReadWorker::finished, m_worker_reader, &SerialReadWorker::deleteLater);//stop worker thread when the finished signal received
 
     // Delete thread
-    connect(SerialReadWorkerThread, &QThread::finished, SerialReadWorkerThread, &QThread::deleteLater);
+    //connect(SerialReadWorkerThread, &QThread::finished, SerialReadWorkerThread, &QThread::deleteLater);
 
     // Start worker
     SerialReadWorkerThread->start();
@@ -153,19 +150,19 @@ void MainWindow::make_signal_slot_connection()
 {
     //connect(ui->pushButton_connect, &QPushButton::clicked,this, &MainWindow::port_connect);
     //connect(ui->pushButton_connect, &QPushButton::clicked, this, &MainWindow::start_serial_read_process);
+
+    SerialReadWorkerThread = new QThread(this);
     connect(ui->lineEdit_enter_command, &QLineEdit::editingFinished, this, &MainWindow::port_send_data_from_line_editor);
     connect(ui->pushButton_open, &QPushButton::clicked, this, &MainWindow::open_test_folder_slot);
     connect(ui->pushButton_clear, &QPushButton::clicked, ui->textEdit,&QTextEdit::clear);
 
-    connect(ui->pushButton_disconnect, &QPushButton::clicked,[=]() {
 
-        qDebug() <<" disconnect button pressed: " ;
-   });
 
 }
 
 void MainWindow::stop_worker_threads()
 {
+
     if(SerialReadWorkerThread != nullptr) {
 
            if(SerialReadWorkerThread->isRunning()) {
@@ -214,19 +211,21 @@ void MainWindow::on_checkbox_save_txt_clicked(bool checked)
 void MainWindow::on_pushButton_connect_clicked(bool)
 {
 
-    ui->comboBoxBaudRates->addItems({"9600", "57600", "115200", "512000"});
-
     if(!m_connect_button_pressed) {
         const auto infos = QSerialPortInfo::availablePorts();
         if( !infos.isEmpty()) {
             for (const QSerialPortInfo &info : infos)
                 ui->comboBoxSeriaPortLists->addItem(info.portName());
 
+            ui->comboBoxBaudRates->addItems({"9600", "57600", "115200", "512000"});
+
             ui->pushButton_connect->setText("connect");
             m_connect_button_pressed = true;
         }
 
       if(m_connect_button_pressed) {
+
+
           connect(ui->pushButton_connect, &QPushButton::clicked,this, &MainWindow::port_connect);
           connect(ui->pushButton_connect, &QPushButton::clicked, this, &MainWindow::start_serial_read_process);
       }
@@ -234,4 +233,6 @@ void MainWindow::on_pushButton_connect_clicked(bool)
 
     }
 }
+
+
 

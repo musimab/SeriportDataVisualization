@@ -34,7 +34,7 @@ void MplotVisualization::plot_requested_data(QVector<double>& y)
    pen.setWidth(5);
    pen.setColor(Qt::blue);
    // set axes ranges, so we see all data:
-   m_plot->graph(0)->setName("Receive Data");
+   m_plot->graph(0)->setName("Received Data");
    m_plot->graph(0)->setPen(pen);
    m_plot->legend->setVisible(true);
    m_plot->replot();
